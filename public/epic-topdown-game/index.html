@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Website</title>
+
+	<script src="api.js"></script>
+	<script src="https://accounts.google.com/gsi/client"></script>
+	<script src="jwt-decode.min.js"></script>
+
+</head>
+<body>
+	<p></p>
+	<button onclick="signInButton()">Sign in</button>
+	<script>
+
+		const $=q=>document.querySelector(q);
+
+		async function main(){
+			let data = await request('/hello2');
+			$('p').innerHTML = data.message;
+		}
+
+		async function signInButton(){
+			let data = await googleAuth();
+			let token = await data.loginSuccess;
+			await main();
+			console.log(token);
+		}
+
+		// main();
+
+
+
+	</script>
+</body>
+</html>
