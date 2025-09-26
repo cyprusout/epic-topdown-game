@@ -1,38 +1,82 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Website</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Epic Topdown Game</title>
 
-	<script src="api.js"></script>
-	<script src="https://accounts.google.com/gsi/client"></script>
-	<script src="jwt-decode.min.js"></script>
+  <!-- Styles -->
+  <link rel="stylesheet" href="styles.css">
 
+  <!-- Google Sign-In -->
+  <script src="api.js"></script>
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <script src="jwt-decode.min.js"></script>
 </head>
 <body>
-	<p></p>
-	<button onclick="signInButton()">Sign in</button>
-	<script>
+  <!-- Menu Screen -->
+  <div id="menu-screen">
+    <h1>Epic Topdown Game</h1>
+    <button id="playButton">Play</button>
+    <button id="loginButton">Login with Google</button>
 
-		const $=q=>document.querySelector(q);
+    <!-- Optional Google auto-rendered button -->
+    <div id="g_id_onload"
+         data-client_id="YOUR_GOOGLE_CLIENT_ID"
+         data-context="signin"
+         data-ux_mode="popup"
+         data-callback="handleCredentialResponse"
+         data-auto_prompt="false">
+    </div>
+    <div class="g_id_signin"
+         data-type="standard"
+         data-shape="rectangular"
+         data-theme="outline"
+         data-text="signin_with"
+         data-size="large"
+         data-logo_alignment="left">
+    </div>
+  </div>
 
-		async function main(){
-			let data = await request('/hello2');
-			$('p').innerHTML = data.message;
-		}
+  <!-- Game Canvas -->
+  <canvas id="game" width="960" height="640"></canvas>
 
-		async function signInButton(){
-			let data = await googleAuth();
-			let token = await data.loginSuccess;
-			await main();
-			console.log(token);
-		}
+  <!-- Scripts -->
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="game.js"></script>
 
-		// main();
+  <script>
+    const $ = q => document.querySelector(q);
 
+    // Request example (from your GitHub code)
+    async function main() {
+      let data = await request('/hello2'); 
+      console.log("Server says:", data.message);
+    }
 
+    async function signInButton() {
+      let data = await googleAuth();
+      let token = await data.loginSuccess;
+      console.log("Google Token:", token);
+      await main();
 
-	</script>
+      // Hide menu and start game after login
+      document.getElementById("menu-screen").style.display = "none";
+      startGame();
+    }
+
+    // Hook up Play button
+    window.addEventListener("DOMContentLoaded", () => {
+      const playBtn = document.getElementById("playButton");
+      const loginBtn = document.getElementById("loginButton");
+
+      playBtn.addEventListener("click", () => {
+        document.getElementById("menu-screen").style.display = "none";
+        startGame();
+      });
+
+      loginBtn.addEventListener("click", signInButton);
+    });
+  </script>
 </body>
 </html>
