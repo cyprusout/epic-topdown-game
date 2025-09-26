@@ -1,0 +1,203 @@
+/* Basic page + menu */
+body {
+  margin: 0;
+  overflow: hidden;
+  background: #0b0f14;
+  color: #fff;
+  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#menu-screen {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  background: linear-gradient(180deg, rgba(0,0,0,0.45), rgba(0,0,0,0.6));
+  z-index: 40;
+}
+
+#menu-screen h1 {
+  margin: 0;
+  font-size: 32px;
+  letter-spacing: 0.6px;
+}
+
+.menu-controls { display: flex; gap: 12px; }
+#menu-screen button {
+  padding: 10px 18px;
+  font-size: 16px;
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.06);
+  background: linear-gradient(180deg,#1b2430,#0f1620);
+  color: #eaf6ff;
+  cursor: pointer;
+}
+
+/* Canvas fills viewport */
+canvas#game {
+  display: block;
+  width: 100vw;
+  height: 100vh;
+  image-rendering: pixelated;
+  background: #08121a;
+}
+
+/* UI overlay container */
+#ui-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none; /* enable specific children with pointer-events:auto */
+  z-index: 30;
+}
+
+/* HUD at top */
+#hud {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 14px;
+  pointer-events: none;
+}
+#bars { display:flex; gap:10px; pointer-events:auto; align-items:center; }
+.bar {
+  position: relative;
+  width: 220px;
+  height: 24px;
+  background: rgba(0,0,0,0.45);
+  border: 1px solid rgba(255,255,255,0.04);
+  border-radius: 6px;
+  overflow: hidden;
+  pointer-events: auto;
+}
+.bar .fill {
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 50%;
+  background: linear-gradient(90deg,#8fd3ff,#ffb86b);
+  transition: width 160ms linear;
+}
+.bar .label {
+  position: absolute;
+  right: 8px;
+  top: 3px;
+  font-size: 12px;
+  color: #011;
+}
+
+/* top-right settings */
+#topRight { pointer-events:auto; display:flex; align-items:center; gap:8px; margin-right:6px; }
+#settingsBtn { pointer-events:auto; padding:6px 8px; border-radius:6px; background:rgba(255,255,255,0.03); border:none; color:#fff; cursor:pointer; }
+
+/* Cast input */
+#castArea { position: absolute; left: 14px; bottom: 96px; width: 50%; pointer-events: auto; }
+#castInput {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.04);
+  background: rgba(3,8,12,0.9);
+  color: #eaf6ff;
+  outline: none;
+  font-size: 14px;
+}
+
+/* Bottom inventory row */
+#inventory-row {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 12px;
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  pointer-events: auto;
+}
+
+/* Quickbar */
+#quickbar { display:flex; gap:8px; }
+.quickslot {
+  width: 56px;
+  height: 56px;
+  background: rgba(2,8,12,0.9);
+  border: 1px solid rgba(255,255,255,0.03);
+  border-radius: 6px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+}
+
+/* Equipment (helmet + weapon) */
+#equipment { display:flex; flex-direction:column; gap:8px; align-items:center; }
+.slot {
+  width: 54px;
+  height: 54px;
+  background: rgba(3,10,14,0.95);
+  border: 1px solid rgba(255,255,255,0.04);
+  border-radius: 6px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:11px;
+  color:#cfe;
+  pointer-events:auto;
+}
+
+/* Big inventory modal */
+#bigInventory {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 86px;
+  background: rgba(2,6,10,0.98);
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.04);
+  pointer-events: auto;
+  z-index: 35;
+}
+.inv-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 64px);
+  gap: 8px;
+}
+.inv-slot {
+  width: 60px;
+  height: 60px;
+  background: rgba(3,8,12,0.95);
+  border: 1px solid rgba(255,255,255,0.03);
+  border-radius: 6px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+}
+
+/* Hidden helper */
+.hidden { display: none !important; }
+
+/* Debug */
+#debug {
+  position: absolute;
+  right: 8px;
+  bottom: 8px;
+  font-size: 12px;
+  color: #9fb;
+  background: rgba(0,0,0,0.25);
+  padding: 6px 8px;
+  border-radius: 6px;
+  pointer-events: none;
+}
+
+/* Small responsive tweaks */
+@media (max-width:800px) {
+  #castArea { width: 86%; left: 7%; }
+  .bar { width: 160px; }
+  .quickslot { width:48px; height:48px; }
+  .slot { width:48px; height:48px; }
+  .inv-slot { width:48px; height:48px; }
+}

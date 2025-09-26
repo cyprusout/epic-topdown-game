@@ -1,0 +1,42 @@
+[
+  {
+    "id": "fireball",
+    "name": "Fireball",
+    "damage": 25,
+    "manaCost": 10,
+    "speed": 6,
+    "cooldown": 1.5,
+    "sprite": "/sprites/fireball.png",
+    "effects": ["burn"]
+  },
+  {
+    "id": "iceblast",
+    "name": "Ice Blast",
+    "damage": 15,
+    "manaCost": 12,
+    "speed": 5,
+    "cooldown": 2,
+    "sprite": "/sprites/iceblast.png",
+    "effects": ["slow"]
+  },
+  {
+    "id": "lightning",
+    "name": "Lightning Bolt",
+    "damage": 30,
+    "manaCost": 20,
+    "speed": 10,
+    "cooldown": 3,
+    "sprite": "/sprites/lightning.png",
+    "effects": ["stun"]
+  },
+  {
+    "id": "heal",
+    "name": "Healing Light",
+    "damage": -20,
+    "manaCost": 15,
+    "speed": 0,
+    "cooldown": 5,
+    "sprite": "/sprites/heal.png",
+    "effects": ["heal"]
+  }
+]
