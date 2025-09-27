@@ -1,4 +1,4 @@
-const port = 80;
+const port = process.env.PORT ? Number(process.env.PORT) : 3000;
 const google_client_id =
   "1016767921529-7km6ac8h3cud3256dqjqha6neiufn2om.apps.googleusercontent.com";
 // npm i express path fs md5 body-parser express-fileupload google-auth-library dotenv swagger-ui-express swagger-jsdoc
@@ -8,6 +8,8 @@ const md5 = require("md5");
 const bodyParser = require("body-parser");
 const fileUpload = require("express-fileupload");
 const app = express();
+const http = require('http');
+const { Server } = require('socket.io');
 const API = require("./api.js");
 const { file, fs } = require("./file.js");
 const { OAuth2Client } = require("google-auth-library");
@@ -18,8 +20,17 @@ app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
 app.use(
   fileUpload({ limits: { fileSize: 50000000 /*50 MB*/ }, abortOnLimit: true })
 );
+// Serve static client files (public and public/client for game assets)
 app.use(express.static(path.join(__dirname, "public")));
-app.listen(port, () => {
+
+// Create HTTP server and attach Socket.IO
+const server = http.createServer(app);
+const io = new Server(server);
+
+// Attach game Socket.IO handlers from API
+if (API.attachGame) API.attachGame(io);
+
+server.listen(port, () => {
   console.log(`Server is listening at http://localhost:${port}`);
 });
 

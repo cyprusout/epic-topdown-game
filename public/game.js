@@ -84,7 +84,7 @@ function angleNormalize(a){ return Math.atan2(Math.sin(a), Math.cos(a)); }
 // -----------------------------
 async function loadSpells() {
   try {
-    const res = await fetch('/spells.json');
+    const res = await fetch('/data/spells.json');
     if (!res.ok) throw new Error('Failed to fetch spells.json');
     spellsData = await res.json();
     console.log('Loaded spells:', Object.keys(spellsData));
